@@ -152,3 +152,15 @@ body.theme-dark {
 p {
     color: white;
 }
+
+p.change-text{
+    color: #f66d52; /* Цвет текста */
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+            transition: all 0.5s ease; 
+  }
+  p.change-text:hover{
+    color: #5265f6; /* Меняем цвет текста */
+  }
