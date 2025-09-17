@@ -4,7 +4,7 @@
 
 <head>
     <link rel="stylesheet" href="styles.css"> 
-   
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная - Название вашего сайта</title>
@@ -23,18 +23,20 @@
 <body>
     <!-- Шапка сайта -->
     <header>
-        <a href="/">Логотип или название сайта</a>
+        <p><a href="/assets/gat.jpg">МИШКИ</a></p>
         <!-- Главное меню навигации -->
         <nav>
             <ul>
+                <button id="themeToggle">Сменить тему</button>
                 <li><a href="index.html"><p class="change-text">Главная</p></a></li>
                 <li><a href="about.html"><p class="change-text">О нас</p></a></li>
                 <li><a href="contacts.html"><p class="change-text">Контакты</p></a></li>
                 <li><a href="cases.html"><p class="change-text">Кейсики</p></a></li>
+                <li><a href="demo.html"><p class="change-text">наш демо сайт</p></a></li>
             </ul>
         </nav>
     </header>
-
+    
     <!-- Уникальное основное содержимое страницы -->
     <main>
         <h1>Добро пожаловать на наш сайт!</h1>
@@ -50,7 +52,7 @@
         <section id="portfolio">
             <h2>Портфолио</h2>
             <p>Примеры наших работ...</p>
-            <img src="..\assets\m.png" alt="вот" width="512px">
+            <img src="..\assets\m.png" alt="вот" width="512px" style="border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.3); transition: transform 0.3s;" class="hover-zoom">
         </section>
         <!-- Секция 3 с якорем -->
         <section id="contacts">
@@ -99,6 +101,29 @@
     </footer>
 
     <script src="main.js" defer></script>
+
+    <script>
+        const themeButton = document.getElementById('themeToggle');
+        let isOriginal = true;
+      
+        themeButton.addEventListener('click', () => {
+          if (isOriginal) {
+            document.body.style.background = 'linear-gradient(green, blue)';
+          } else {
+            document.body.style.background = 'linear-gradient(red, black)';
+          }
+          isOriginal = !isOriginal;
+        });
+        document.querySelector('.hover-zoom').addEventListener('mouseenter', () => {
+          document.querySelector('.hover-zoom').style.transform = 'scale(1.05)';
+      });
+      document.querySelector('.hover-zoom').addEventListener('mouseleave', () => {
+          document.querySelector('.hover-zoom').style.transform = 'scale(1)';
+      });
+
+      </script>
+      
+      
 </body>
 
 </html>

@@ -7,20 +7,22 @@
     <meta name="description" content="Как можно с нами пососаться">
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <style>
-        body{
-            background-color: #12B874;
-        } 
-        </style>
+        body {
+            background: linear-gradient(green, blue);
+        }
+    </style>
 </head>
 <body>
     <header>
-        <a href="/">Логотип или название сайта</a>
+        <p><a href="/assets/gat.jpg">МИШКИ</a></p>
         <!-- Главное меню навигации -->
         <nav>
             <ul>
+                <button id="themeToggle">Сменить тему</button>
                 <li><a href="index.html"><p class="change-text">Главная</p></a></li>
                 <li><a href="about.html"><p class="change-text">О нас</p></a></li>
                 <li><a href="contacts.html"><p class="change-text">Контакты</p></a></li>
+                <li><a href="demo.html"><p class="change-text">наш демо сайт</p></a></li>
             </ul>
         </nav>
     </header>
@@ -41,6 +43,18 @@
         <p>&copy; 2025 Шаловливые пальчики. Все права защищены.</p>
         <p>Телефон: +7 (999) 999-99-99</p>
     </footer>
-    
+    <script>
+        const themeButton = document.getElementById('themeToggle');
+        let isOriginal = true;
+      
+        themeButton.addEventListener('click', () => {
+          if (isOriginal) {
+            document.body.style.background = 'linear-gradient(green, blue)';
+          } else {
+            document.body.style.background = 'linear-gradient(red, black)';
+          }
+          isOriginal = !isOriginal;
+        });
+      </script>
 </body>
 </html>
