@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Пустышка</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #2196F3, #4CAF50);
+      color: #fff;
+    }
+
+    .dummy-box {
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+      padding: 40px 60px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      max-width: 500px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 36px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      color: #e0e0e0;
+    }
+
+    .highlight {
+      color: #ffeb3b;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="dummy-box">
+        <li><a href="visit.html"><button class="themeToggle" type="button">Назад</button></a></li>
+      <h1>Здесь будет онлайн стриптизбар</h1>
+      <p>Эта страница — <span class="highlight">пустой</span>. пока что)</p>
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({});
+    app.mount('#app');
+  </script>
+</body>
+</html>

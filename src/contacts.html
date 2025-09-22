@@ -1,60 +1,176 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <link rel="stylesheet" href="styles.css">
-    ... <!-- Скопируйте весь блок <head> из index.html -->
-    <title>Контакты для связи</title>
-    <meta name="description" content="Как можно с нами пососаться">
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-    <style>
-        body {
-            background: linear-gradient(green, blue);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Контакты для связи</title>
+  <meta name="description" content="Как можно с нами связаться">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4CAF50, #2196F3);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+
+    header p a {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    nav ul li {
+      margin: 0;
+    }
+
+    nav ul li a,
+    #themeToggle {
+      display: inline-block;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    nav ul li a:hover,
+    #themeToggle:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    main {
+      text-align: center;
+      flex: 1;
+      padding: 40px 20px;
+    }
+
+    section {
+      margin: 40px auto;
+      max-width: 600px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    h1,
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    img {
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      max-width: 100%;
+      height: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.4);
+      margin-top: auto;
+    }
+
+    footer a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <p><a href="/assets/gat.jpg">МИШКИ</a></p>
-        <!-- Главное меню навигации -->
-        <nav>
-            <ul>
-                <button id="themeToggle">Сменить тему</button>
-                <li><a href="index.html"><p class="change-text">Главная</p></a></li>
-                <li><a href="about.html"><p class="change-text">О нас</p></a></li>
-                <li><a href="contacts.html"><p class="change-text">Контакты</p></a></li>
-                <li><a href="demo.html"><p class="change-text">наш демо сайт</p></a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <p><a href="/assets/gat.jpg">🐻 МИШКИ</a></p>
+    <nav>
+      <ul>
+        <li><button id="themeToggle">Сменить тему</button></li>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="about.html">О нас</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+        <li><a href="demo.html">Наш демо сайт</a></li>
+        <li><a href="visit.html">Визитка</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-        <h1>Номер:</h1>
-        <section>
-            <h2>Админ</h2>
-            <p>+79998887766</p>
-        </section>
-        <section>
-            <h2>Сис:</h2>
-            <img src="..\assets\gg.jpg" alt="вот" width="512px" >
-        </section>
-    </main>
+  <main>
+    <h1>Наши контакты</h1>
 
-    <footer>
-        <p>&copy; 2025 Шаловливые пальчики. Все права защищены.</p>
-        <p>Телефон: +7 (999) 999-99-99</p>
-    </footer>
-    <script>
-        const themeButton = document.getElementById('themeToggle');
-        let isOriginal = true;
-      
-        themeButton.addEventListener('click', () => {
-          if (isOriginal) {
-            document.body.style.background = 'linear-gradient(green, blue)';
-          } else {
-            document.body.style.background = 'linear-gradient(red, black)';
-          }
-          isOriginal = !isOriginal;
-        });
-      </script>
+    <section>
+      <h2>Админ</h2>
+      <p>📞 +7 (999) 888-77-66</p>
+    </section>
+
+    <section>
+      <h2>Сис</h2>
+      <img src="../assets/gg.jpg" alt="Фото команды" width="512">
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Шаловливые пальчики. Все права защищены.</p>
+    <p>Телефон: +7 (999) 999-99-99</p>
+  </footer>
+
+  <script>
+    const themeButton = document.getElementById('themeToggle');
+    let isOriginal = true;
+
+    themeButton.addEventListener('click', () => {
+      if (isOriginal) {
+        document.body.style.background = 'linear-gradient(135deg, #f44336, #000)';
+      } else {
+        document.body.style.background = 'linear-gradient(135deg, #4CAF50, #2196F3)';
+      }
+      isOriginal = !isOriginal;
+    });
+
+    document.querySelector('.hover-zoom').addEventListener('mouseenter', (e) => {
+      e.target.style.transform = 'scale(1.05)';
+    });
+    document.querySelector('.hover-zoom').addEventListener('mouseleave', (e) => {
+      e.target.style.transform = 'scale(1)';
+    });
+
+    const dialog = document.getElementById('contactDialog');
+    document.getElementById('openDialog').onclick = () => dialog.showModal();
+    document.getElementById('closeDialog').onclick = () => dialog.close();
+  </script>
+  <script src="main.js" defer></script>
+
 </body>
+
 </html>

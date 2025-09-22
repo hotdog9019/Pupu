@@ -38,12 +38,32 @@ form?.addEventListener('submit', (e) => {
         form.reset();
     });
 });
-dlg.addEventListener('close', () => { lastActive?.focus(); });
-// document.getElementById('themeToggle').addEventListener('click', function () {
-//     const currentTheme = document.body.className;
-//     if (currentTheme === 'light-theme') {
-//         document.body.className = 'dark-theme';
-//     } else {
-//         document.body.className = 'light-theme';
-//     }
-// });
+// main.js
+document.addEventListener("DOMContentLoaded", () => {
+  const themeButton = document.getElementById("themeToggle");
+
+  if (!themeButton) return; // если на странице нет кнопки, выходим
+
+  // Получаем тему из localStorage или ставим светлую по умолчанию
+  let currentTheme = localStorage.getItem("theme") || "light";
+
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      document.body.style.background = "linear-gradient(135deg, #f44336, #000)";
+      document.body.style.color = "#fff";
+    } else {
+      document.body.style.background = "linear-gradient(135deg, #4CAF50, #2196F3)";
+      document.body.style.color = "#fff";
+    }
+    localStorage.setItem("theme", theme);
+  }
+
+  // Применяем тему при загрузке страницы
+  applyTheme(currentTheme);
+
+  // Переключение темы при клике
+  themeButton.addEventListener("click", () => {
+    currentTheme = currentTheme === "light" ? "dark" : "light";
+    applyTheme(currentTheme);
+  });
+});
