@@ -1,59 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Пустышка</title>
-  <script src="https://unpkg.com/vue@3"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Крестики-нолики</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #2196F3, #4CAF50);
-      color: #fff;
-    }
-
-    .dummy-box {
-      text-align: center;
-      background: rgba(0,0,0,0.3);
-      padding: 40px 60px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      max-width: 500px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      font-size: 36px;
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.5;
-      color: #e0e0e0;
-    }
-
-    .highlight {
-      color: #ffeb3b;
-      font-weight: bold;
-    }
+    body{font-family:Arial;margin:0;background:#54565c;
+         display:flex;align-items:center;justify-content:center;height:100vh}
+    .board{background:#6d5f5f;padding:20px;border-radius:12px;
+           box-shadow:0 6px 18px rgba(2,6,23,0.08)}
+    .grid{display:grid;grid-template-columns:repeat(3,80px);gap:8px}
+    .cell{width:80px;height:80px;display:flex;align-items:center;
+          justify-content:center;font-size:32px;font-weight:700;
+          background:#ffffff;border-radius:8px;cursor:pointer}
+    .cell:hover{background:#e5e7eb}
+    .controls{display:flex;justify-content:center;margin-top:12px}
+    button{padding:8px 12px;border-radius:8px;border:0;cursor:pointer;
+           background:#2563eb;color:#ffffff}
   </style>
 </head>
 <body>
-  <div id="app">
-    <div class="dummy-box">
-        <li><a href="visit.html"><button class="themeToggle" type="button">Назад</button></a></li>
-      <h1>Здесь будет онлайн стриптизбар</h1>
-      <p>Эта страница — <span class="highlight">пустой</span>. пока что)</p>
-    </div>
+  <div class="board">
+    <h2 style="text-align:center;margin:0 0 12px 0">Крестики — Нолики</h2>
+    <div id="status" style="text-align:center;margin-bottom:8px">Ход: X</div>
+    <div class="grid" id="grid"></div>
+    <div class="controls"><button id="reset">Новая игра</button></div>
+    <li><a href="visit.html"><button class="glow-on-hover" type="button">Назад</button></a></li>
   </div>
 
-  <script>
-    const app = Vue.createApp({});
-    app.mount('#app');
-  </script>
+<script>
+  const grid = document.getElementById('grid');
+  const status = document.getElementById('status');
+  const resetBtn = document.getElementById('reset');
+
+  let board = Array(9).fill(null);
+  let xNext = true;
+
+  function render() {
+    grid.innerHTML = '';
+    board.forEach((cell, i) => {
+      const btn = document.createElement('div');
+      btn.className = 'cell';
+      btn.textContent = cell || '';
+      btn.addEventListener('click', () => clickCell(i));
+      grid.appendChild(btn);
+    });
+    const winner = calculateWinner(board);
+    if (winner) status.textContent = (winner === 'Draw') ? 'Ничья' : `Победитель: ${winner}`;
+    else status.textContent = `Ход: ${xNext ? 'X' : 'O'}`;
+  }
+
+  function clickCell(i) {
+    if (board[i] || calculateWinner(board)) return;
+    board[i] = xNext ? 'X' : 'O';
+    xNext = !xNext;
+    render();
+  }
+
+  function reset() {
+    board = Array(9).fill(null);
+    xNext = true;
+    render();
+  }
+
+  function calculateWinner(sq) {
+    const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],
+                   [1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    for (let [a,b,c] of lines){
+      if (sq[a] && sq[a]===sq[b] && sq[a]===sq[c]) return sq[a];
+    }
+    if (sq.every(Boolean)) return 'Draw';
+    return null;
+  }
+
+  resetBtn.addEventListener('click', reset);
+  render();
+</script>
 </body>
 </html>
