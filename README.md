@@ -4,4 +4,4 @@
 Этот репозиторий является каркасом для будущего веб-приложения.
 
 ## Ссылки
-- [Публичная страница на GitHub Pages](https://hotdog9019.github.io/Pupu/src/index.html)
+- [Публичная страница на GitHub Pages](https://hotdog9019.github.io/Pupu/src/ocnova/index.html)
