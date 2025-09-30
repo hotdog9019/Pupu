@@ -19,126 +19,101 @@
       transition: opacity 1s ease;
       overflow: hidden;
       transform: translateY(-10%);
-}
-
+    }
 
     body.loaded {
       opacity: 1;
     }
 
     .button-row {
-  display: flex;            
-  align-items: center;      
-  gap: 10px;                
-  margin-bottom: 10px;      
-}
+      display: flex;            
+      align-items: center;      
+      gap: 10px;                
+      margin-bottom: 10px;      
+    }
 
-.wrapper {
-  position: relative; /* обязательно, чтобы кнопка позиционировалась внутри блока */
-  width: 300px;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  text-align: center;
-}
+    .wrapper {
+      position: relative;
+      width: 300px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      text-align: center;
+      margin: auto; /* чтобы было по центру */
+      top: 50%;
+      transform: translateY(50%);
+    }
 
-.small-theme-btn {
-  position: absolute;
-  top: 10px;    /* отступ сверху */
-  right: 10px;  /* прижато к правому краю */
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
-  background: #4CAF50;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s;
+    .small-theme-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
     }
 
     .small-theme-btn:hover {
-      background: #4CAF50;
+      background: #45a049;
     }
-
-
-
-    </style>
+  </style>
 </head>
 <body>
   <div class="wrapper">
-  <div class="header-flex">
-    <div class="button-row">
-      <h1>Login</h1>
-  <button class="small-theme-btn" id="themeToggle">🌙</button>
-</div>
+    <div class="header-flex">
+      <div class="button-row">
+        <h1>Login</h1>
+        <button class="small-theme-btn" id="themeToggle">🌙</button>
+      </div>
+    </div>
 
-
-  <div class="input-box">
-    <input type="text" id="username" placeholder="Username" required>
+    <div class="input-box">
+      <input type="text" id="username" placeholder="Username" required>
+    </div>
+    <div class="input-box">
+      <input type="password" id="password" placeholder="Password" required>
+    </div>
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Register</button>
+    <p id="message"></p>
   </div>
-  <div class="input-box">
-    <input type="password" id="password" placeholder="Password" required>
-  </div>
-  <button id="loginBtn">Login</button>
-  <button id="registerBtn">Register</button>
-  <p id="message"></p>
-</div>
 
-
-  <!-- <script>
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const message = document.getElementById('message');
-
-    async function sendRequest(url, data) {
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        // Если сервер вернул ошибку (500, 400 и т.д.)
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({ message: 'Ошибка сервера' }));
-          throw new Error(errData.message || 'Ошибка сервера');
-        }
-
-        return res.json();
-      } catch (err) {
-        return { message: err.message };
-      }
-    }
-
-    loginBtn.addEventListener('click', async () => {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      const result = await sendRequest('/api/login', { username, password });
-      message.textContent = result.message;
-      message.style.color = result.message.includes('Добро') ? 'green' : 'red';
-    });
-
-    registerBtn.addEventListener('click', async () => {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      const result = await sendRequest('/api/register', { username, password });
-      message.textContent = result.message;
-      message.style.color = result.message.includes('успешна') ? 'green' : 'red';
-    });
-  </script> -->
-  <script src="script.js"></script>
   <script>
-  window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-  });
-</script>
-<script src="main.js" defer></script>
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+  </script>
 
+  <!-- === Firebase === -->
+  <script type="module">
+    // Импорт SDK из официального CDN
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
+
+    // Твоя конфигурация
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1uvORzkRR61w2lz63TRAd9UUc5Crf_sc",
+      authDomain: "my-login-site-e0037.firebaseapp.com",
+      projectId: "my-login-site-e0037",
+      storageBucket: "my-login-site-e0037.firebasestorage.app",
+      messagingSenderId: "496590227955",
+      appId: "1:496590227955:web:4848677cbd1610743a6a86",
+      measurementId: "G-YW2BD7XZCK"
+    };
+
+    // Инициализация Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    console.log("🔥 Firebase подключён!");
+  </script>
 </body>
 </html>
