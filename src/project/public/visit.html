@@ -259,36 +259,52 @@
     <script src="main.js" defer></script>
 
     <script>
-        const themeBtn = document.getElementById('themeToggle');
-        let isLight = true;
-        const blocks = document.querySelectorAll('body, header, footer, .profile-card, .experience-item, .skill-tag');
-        blocks.forEach(el => el.style.transition = 'background 0.5s ease, color 0.5s ease');
+const themeBtn = document.getElementById('themeToggle');
 
-        themeBtn.addEventListener('click', () => {
-            if (isLight) {
-                document.body.style.background = 'linear-gradient(135deg, #f44336, #000)';
-                blocks.forEach(el => {
-                    if (el !== document.body) {
-                        el.style.background = 'linear-gradient(135deg, #f44336, #000)';
-                        el.style.color = '#fff';
-                    }
-                });
-            } else {
-                document.body.style.background = 'linear-gradient(135deg, #4CAF50, #2196F3)';
-                blocks.forEach(el => {
-                    if (el !== document.body) {
-                        el.style.background = '';
-                        el.style.color = '';
-                    }
-                });
+// Проверяем, какая тема была в прошлый раз
+let isLight = localStorage.getItem('theme') === 'dark' ? false : true;
+
+// Все блоки, фон которых меняем
+const blocks = document.querySelectorAll('header, footer, .profile-card, .experience-item, .skill-tag, body');
+
+// Добавляем плавный переход
+blocks.forEach(el => {
+    el.style.transition = 'background 0.5s ease, color 0.5s ease';
+});
+
+// Функция применения темы
+function applyTheme() {
+    if (isLight) {
+        // Светлая тема
+        document.body.style.background = 'linear-gradient(135deg, #4CAF50, #2196F3)';
+        blocks.forEach(el => {
+            if(el !== document.body){
+                el.style.background = '';
+                el.style.color = '';
             }
-            isLight = !isLight;
         });
-    </script>
+    } else {
+        // Тёмная тема
+        document.body.style.background = 'linear-gradient(135deg, #f44336, #000)';
+        blocks.forEach(el => {
+            if(el !== document.body){
+                el.style.background = 'linear-gradient(135deg, #f44336, #000)';
+                el.style.color = '#fff';
+            }
+        });
+    }
+}
 
+// Применяем тему при загрузке
+applyTheme();
 
-
-
+// Переключение темы при клике
+themeBtn.addEventListener('click', () => {
+    isLight = !isLight;
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    applyTheme();
+});
+</script>
 
 </body>
 

@@ -1,142 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login & Register</title>
-  <style>
-     body {   
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #4CAF50, #2196F3);
-      color: rgb(3, 3, 3);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      width: 100vw;  
-      opacity: 0;
-      transition: opacity 1s ease;
-      overflow: hidden;
-      transform: translateY(-10%);
-}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Register</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #4CAF50, #2196F3);
+        color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        opacity: 0;
+        transition: opacity 1s ease, background 0.5s ease;
+    }
+    body.loaded { opacity: 1; }
 
-
-    body.loaded {
-      opacity: 1;
+    .wrapper {
+        position: relative;
+        width: 300px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        text-align: center;
     }
 
-    .button-row {
-  display: flex;            
-  align-items: center;      
-  gap: 10px;                
-  margin-bottom: 10px;      
-}
+    .wrapper h1 { margin: 0 0 20px; }
 
-.wrapper {
-  position: relative; /* обязательно, чтобы кнопка позиционировалась внутри блока */
-  width: 300px;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.small-theme-btn {
-  position: absolute;
-  top: 10px;    /* отступ сверху */
-  right: 10px;  /* прижато к правому краю */
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
-  background: #4CAF50;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s;
+    .input-box {
+        margin-bottom: 15px;
     }
 
-    .small-theme-btn:hover {
-      background: #4CAF50;
+    input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        border: 1px solid #aaa;
     }
 
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #4CAF50;
+        color: #fff;
+        font-size: 16px;
+    }
 
+    .small-theme-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 6px;
+        background: #4CAF50;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s;
+    }
+    .small-theme-btn:hover { background: #45a049; }
 
-    </style>
+    #message { margin-top: 10px; font-weight: bold; }
+</style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="button-row">
-      <h1>Login</h1>
-      <button class="small-theme-btn" id="themeToggle">🌙</button>
+<div class="wrapper">
+    <h1>Login</h1>
+    <button class="small-theme-btn" id="themeToggle">🌙</button>
+
+    <div class="input-box">
+        <input type="text" id="username" placeholder="Username" required>
     </div>
-
-
-  <div class="input-box">
-    <input type="text" id="username" placeholder="Username" required>
-  </div>
-  <div class="input-box">
-    <input type="password" id="password" placeholder="Password" required>
-  </div>
-  <button id="loginBtn">Login</button>
-  <button id="registerBtn">Register</button>
-  <p id="message"></p>
+    <div class="input-box">
+        <input type="password" id="password" placeholder="Password" required>
+    </div>
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Register</button>
+    <p id="message"></p>
 </div>
 
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
 
-  <!-- <script>
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const message = document.getElementById('message');
+const firebaseConfig = {
+    apiKey: "AIzaSyA1uvORzkRR61w2lz63TRAd9UUc5Crf_sc",
+    authDomain: "my-login-site-e0037.firebaseapp.com",
+    projectId: "my-login-site-e0037",
+    storageBucket: "my-login-site-e0037.firebasestorage.app",
+    messagingSenderId: "496590227955",
+    appId: "1:496590227955:web:4848677cbd1610743a6a86",
+    measurementId: "G-YW2BD7XZCK"
+};
 
-    async function sendRequest(url, data) {
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-        // Если сервер вернул ошибку (500, 400 и т.д.)
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({ message: 'Ошибка сервера' }));
-          throw new Error(errData.message || 'Ошибка сервера');
-        }
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const message = document.getElementById('message');
 
-        return res.json();
-      } catch (err) {
-        return { message: err.message };
-      }
+loginBtn.addEventListener('click', async () => {
+    const email = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = 'visit.html';
+    } catch (err) {
+        message.textContent = err.message;
+        message.style.color = 'red';
     }
+});
 
-    loginBtn.addEventListener('click', async () => {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
+registerBtn.addEventListener('click', async () => {
+    const email = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        window.location.href = 'visit.html';
+    } catch (err) {
+        message.textContent = err.message;
+        message.style.color = 'red';
+    }
+});
 
-      const result = await sendRequest('/api/login', { username, password });
-      message.textContent = result.message;
-      message.style.color = result.message.includes('Добро') ? 'green' : 'red';
-    });
 
-    registerBtn.addEventListener('click', async () => {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
 
-      const result = await sendRequest('/api/register', { username, password });
-      message.textContent = result.message;
-      message.style.color = result.message.includes('успешна') ? 'green' : 'red';
-    });
-  </script> -->
-  <script src="script.js"></script>
-  <script>
-  window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-  });
+window.addEventListener('load', () => { document.body.classList.add('loaded'); });
 </script>
-<script src="main.js" defer></script>
+<script>
+const themeBtn = document.getElementById('themeToggle');
 
+// Проверяем, какая тема была в прошлый раз
+let isLight = localStorage.getItem('theme') === 'dark' ? false : true;
+
+// Все блоки, фон которых меняем
+const blocks = document.querySelectorAll('header, footer, .profile-card, .experience-item, .skill-tag, body');
+
+// Добавляем плавный переход
+blocks.forEach(el => {
+    el.style.transition = 'background 0.5s ease, color 0.5s ease';
+});
+
+// Функция применения темы
+function applyTheme() {
+    if (isLight) {
+        // Светлая тема
+        document.body.style.background = 'linear-gradient(135deg, #4CAF50, #2196F3)';
+        blocks.forEach(el => {
+            if(el !== document.body){
+                el.style.background = '';
+                el.style.color = '';
+            }
+        });
+    } else {
+        // Тёмная тема
+        document.body.style.background = 'linear-gradient(135deg, #f44336, #000)';
+        blocks.forEach(el => {
+            if(el !== document.body){
+                el.style.background = 'linear-gradient(135deg, #f44336, #000)';
+                el.style.color = '#fff';
+            }
+        });
+    }
+}
+
+// Применяем тему при загрузке
+applyTheme();
+
+// Переключение темы при клике
+themeBtn.addEventListener('click', () => {
+    isLight = !isLight;
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    applyTheme();
+});
+</script>
 </body>
 </html>
