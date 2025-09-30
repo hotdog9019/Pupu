@@ -2,7 +2,6 @@
 <html lang="ru">
 
 <head>
-    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Информация об авторе</title>
@@ -15,11 +14,9 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow: hidden;
             opacity: 0;
             transition: opacity 1s ease;
-            overflow: hidden;
-
-            transform: translateY(-10%);
         }
 
         body.loaded {
@@ -47,19 +44,14 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            /* 🔑 Позволяет кнопкам переноситься */
             gap: 10px;
-            /* Расстояние между кнопками */
             max-width: 100%;
-            /* Ограничиваем ширину контейнера */
             box-sizing: border-box;
         }
 
         header nav ul li {
             flex-shrink: 0;
-            /* Запрещает сжиматься */
         }
-
 
         .profile-card {
             background: linear-gradient(135deg, #4CAF50, #2196F3);
@@ -69,11 +61,6 @@
             text-align: center;
         }
 
-        .profile-card h2,
-        .profile-card p {
-            margin: 5px 0;
-        }
-
         .profile-card .avatar {
             width: 100px;
             height: 100px;
@@ -81,59 +68,36 @@
             border-radius: 50%;
             margin: 0 auto 10px;
             overflow: hidden;
-            /* Обрезаем лишнее у изображения */
         }
 
         .profile-card .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Сохраняем пропорции и заполняем контейнер */
         }
 
-        .profile-card .info-section {
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        .profile-card .info-section label {
-            font-weight: bold;
-        }
-
-        .profile-card .info-section textarea,
-        .profile-card .info-section input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            box-sizing: border-box;
-            border: 1px solid #585555;
-            border-radius: 4px;
-        }
-
-        .profile-card .skills {
+        .skills {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            /* Позволяет тегам переноситься на новую строку */
             gap: 10px;
             margin-top: 15px;
         }
 
-        .profile-card .skill-tag {
+        .skill-tag {
             background-color: #4CAF50;
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 14px;
             white-space: nowrap;
-            /* Предотвращает перенос текста внутри тега */
         }
 
-        .profile-card .experience-list {
+        .experience-list {
             text-align: left;
             margin-top: 20px;
         }
 
-        .profile-card .experience-item {
+        .experience-item {
             border: 1px solid #4CAF50;
             border-radius: 4px;
             padding: 10px;
@@ -141,18 +105,8 @@
             background-color: #4CAF50;
         }
 
-        .placeholder-image {
-            width: 50px;
-            height: 50px;
-            background-color: #ccc;
-            border-radius: 50%;
-            margin: 0 auto;
-        }
-
-        /* Стили для кнопок, чтобы они выглядели красиво */
         .glow-on-hover {
             width: 110px;
-            /* Задаём фиксированный размер для всех кнопок */
             height: 45px;
             border: none;
             outline: none;
@@ -162,7 +116,6 @@
             position: relative;
             z-index: 0;
             border-radius: 10px;
-
         }
 
         .glow-on-hover:before {
@@ -182,28 +135,28 @@
             border-radius: 10px;
         }
 
-        .glow-on-hover:active {
-            color: #000;
-        }
-
-        .glow-on-hover:active:after {
-            background: transparent;
-        }
-
         .glow-on-hover:hover:before {
             opacity: 1;
         }
 
-        .glow-on-hover:after {
-            z-index: -1;
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            left: 0;
-            top: 0;
-            border-radius: 10px;
+        .btn-spin {
+            width: 110px;
+            height: 45px;
+            background: #ff6f00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #ff9800;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-spin:hover {
+            background: #ff9f1a;
+            transform: scale(1.05);
         }
 
         @keyframes glowing {
@@ -226,13 +179,14 @@
     <div class="container">
         <header>
             <h2>Добро пожаловать, <span id="userName"></span>!</h2>
-            <button id="logoutBtn">Выйти</button>
+            <button id="logoutBtn" class="btn-spin">Выйти </button>
         </header>
+
         <header>
             <nav>
                 <ul>
-                    <li><a href="main.html"><button class="glow-on-hover" type="button">Назад</button></a>
-                    </li>
+                    <li><button id="themeToggle" class="glow-on-hover">Сменить тему</button></li>
+                    <li><a href="main.html"><button class="glow-on-hover" type="button">Назад</button></a></li>
                     <li><a href="main.html"><button class="glow-on-hover" type="button">Главная</button></a></li>
                     <li><a href="new.html"><button class="glow-on-hover" type="button">Новости</button></a></li>
                     <li><a href="prac.html"><button class="glow-on-hover" type="button">Практика</button></a></li>
@@ -247,15 +201,10 @@
             <section class="profile-card">
                 <h2>Информация об авторе</h2>
                 <div class="avatar">
-                    <img src="/assets/ff.jpg" alt="Фотография авторов">
+                    <img src="./assets/ff.jpg" alt="Фотография авторов">
                 </div>
                 <h3>Элизбарян Артём Гайкович и Чобан Александр Александрович</h3>
                 <p>ЭФБО-14-24</p>
-
-                <div class="info-section">
-                    <label for="about">О нас:</label>
-
-                </div>
 
                 <div class="skills">
                     <span class="skill-tag">кайфовые</span>
@@ -271,27 +220,75 @@
             </section>
         </main>
     </div>
-    <script>
-        // Проверяем, залогинен ли пользователь
-        const user = localStorage.getItem('loggedUser');
-        if (!user) {
-            window.location.href = 'index.html'; // если не залогинен — редирект на форму
-        } else {
-            document.getElementById('userName').textContent = user; // показываем имя
-        }
 
-        // Кнопка выхода
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            localStorage.removeItem('loggedUser'); // удаляем сессию
-            window.location.href = 'index.html'; // редирект на форму
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA1uvORzkRR61w2lz63TRAd9UUc5Crf_sc",
+            authDomain: "my-login-site-e0037.firebaseapp.com",
+            projectId: "my-login-site-e0037",
+            storageBucket: "my-login-site-e0037.firebasestorage.app",
+            messagingSenderId: "496590227955",
+            appId: "1:496590227955:web:4848677cbd1610743a6a86",
+            measurementId: "G-YW2BD7XZCK"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const userNameSpan = document.getElementById('userName');
+        const logoutBtn = document.getElementById('logoutBtn');
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                userNameSpan.textContent = user.email; // показываем email или uid
+            } else {
+                window.location.href = 'index.html';
+            }
         });
-
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'index.html';
+        });
     </script>
     <script>
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
         });
     </script>
+    <script src="main.js" defer></script>
+
+    <script>
+        const themeBtn = document.getElementById('themeToggle');
+        let isLight = true;
+        const blocks = document.querySelectorAll('body, header, footer, .profile-card, .experience-item, .skill-tag');
+        blocks.forEach(el => el.style.transition = 'background 0.5s ease, color 0.5s ease');
+
+        themeBtn.addEventListener('click', () => {
+            if (isLight) {
+                document.body.style.background = 'linear-gradient(135deg, #f44336, #000)';
+                blocks.forEach(el => {
+                    if (el !== document.body) {
+                        el.style.background = 'linear-gradient(135deg, #f44336, #000)';
+                        el.style.color = '#fff';
+                    }
+                });
+            } else {
+                document.body.style.background = 'linear-gradient(135deg, #4CAF50, #2196F3)';
+                blocks.forEach(el => {
+                    if (el !== document.body) {
+                        el.style.background = '';
+                        el.style.color = '';
+                    }
+                });
+            }
+            isLight = !isLight;
+        });
+    </script>
+
+
+
+
 
 </body>
 

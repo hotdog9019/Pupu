@@ -4,141 +4,196 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login & Register</title>
-  <link rel="stylesheet" href="styles.css" />
   <style>
-     body {   
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #4CAF50, #2196F3);
-      color: rgb(3, 3, 3);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      width: 100vw;  
-      opacity: 0;
-      transition: opacity 1s ease;
-      overflow: hidden;
-      transform: translateY(-10%);
-}
+     body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #4CAF50, #2196F3);
+        color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        opacity: 0;
+        transition: opacity 1s ease, background 0.5s ease;
+    }
+    body.loaded { opacity: 1; }
 
-
-    body.loaded {
-      opacity: 1;
+    .wrapper {
+        position: relative;
+        width: 300px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        text-align: center;
     }
 
-    .button-row {
-  display: flex;            
-  align-items: center;      
-  gap: 10px;                
-  margin-bottom: 10px;      
-}
+    .wrapper h1 { margin: 0 0 20px; }
 
-.wrapper {
-  position: relative; /* обязательно, чтобы кнопка позиционировалась внутри блока */
-  width: 300px;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.small-theme-btn {
-  position: absolute;
-  top: 10px;    /* отступ сверху */
-  right: 10px;  /* прижато к правому краю */
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
-  background: #4CAF50;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s;
+    .input-box {
+        margin-bottom: 15px;
     }
 
-    .small-theme-btn:hover {
-      background: #4CAF50;
+    input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        border: 1px solid #aaa;
     }
 
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #4CAF50;
+        color: #fff;
+        font-size: 16px;
+    }
 
+    .small-theme-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 6px;
+        background: #4CAF50;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s;
+    }
+    .small-theme-btn:hover { background: #45a049; }
 
-    </style>
+    input {
+      width: 90%;
+      margin: 8px 0;
+      padding: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <div class="wrapper">
-  <div class="header-flex">
     <div class="button-row">
       <h1>Login</h1>
-  <button class="small-theme-btn" id="themeToggle">🌙</button>
-</div>
+      <button class="small-theme-btn" id="themeToggle">🌙</button>
+    </div>
 
-
-  <div class="input-box">
-    <input type="text" id="username" placeholder="Username" required>
+    <input type="email" id="username" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Register</button>
+    <p id="message"></p>
   </div>
-  <div class="input-box">
-    <input type="password" id="password" placeholder="Password" required>
-  </div>
-  <button id="loginBtn">Login</button>
-  <button id="registerBtn">Register</button>
-  <p id="message"></p>
-</div>
-
 
   <!-- <script>
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const message = document.getElementById('message');
-
-    async function sendRequest(url, data) {
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        // Если сервер вернул ошибку (500, 400 и т.д.)
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({ message: 'Ошибка сервера' }));
-          throw new Error(errData.message || 'Ошибка сервера');
-        }
-
-        return res.json();
-      } catch (err) {
-        return { message: err.message };
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+      // при загрузке применяем сохранённую тему
+      const savedTheme = localStorage.getItem("theme") || "light";
+      if (savedTheme === "dark") {
+        document.body.style.background = "linear-gradient(135deg, #222, #555)";
+        document.getElementById("themeToggle").textContent = "☀️";
       }
-    }
-
-    loginBtn.addEventListener('click', async () => {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      const result = await sendRequest('/api/login', { username, password });
-      message.textContent = result.message;
-      message.style.color = result.message.includes('Добро') ? 'green' : 'red';
-    });
-
-    registerBtn.addEventListener('click', async () => {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      const result = await sendRequest('/api/register', { username, password });
-      message.textContent = result.message;
-      message.style.color = result.message.includes('успешна') ? 'green' : 'red';
     });
   </script> -->
-  <script src="script.js"></script>
-  <script>
+
+  <!-- === Firebase + Auth === -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+      from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+
+    // Конфигурация
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1uvORzkRR61w2lz63TRAd9UUc5Crf_sc",
+      authDomain: "my-login-site-e0037.firebaseapp.com",
+      projectId: "my-login-site-e0037",
+      storageBucket: "my-login-site-e0037.firebasestorage.app",
+      messagingSenderId: "496590227955",
+      appId: "1:496590227955:web:4848677cbd1610743a6a86",
+      measurementId: "G-YW2BD7XZCK"
+    };
+
+    // Инициализация
+    const app = initializeApp(firebaseConfig);
+    getAnalytics(app);
+    const auth = getAuth(app);
+
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const message = document.getElementById("message");
+
+    // Регистрация
+    registerBtn.addEventListener("click", async () => {
+      const email = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        message.textContent = "Введите email и пароль";
+        message.style.color = "red";
+        return;
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        message.textContent = "✅ Регистрация успешна!";
+        message.style.color = "green";
+      } catch (error) {
+        message.textContent = `❌ Ошибка: ${error.message}`;
+        message.style.color = "red";
+      }
+    });
+
+    // Вход
+    loginBtn.addEventListener("click", async () => {
+      const email = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        message.textContent = "Введите email и пароль";
+        message.style.color = "red";
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        message.textContent = "✅ Вход выполнен!";
+        message.style.color = "green";
+        // перенаправляем на visit.html
+        setTimeout(() => window.location.href = "visit.html", 800);
+      } catch (error) {
+        message.textContent = `❌ Ошибка: ${error.message}`;
+        message.style.color = "red";
+      }
+    });
+  </script>
+   <script src="main.js" defer></script>
+   <script>
   window.addEventListener('load', () => {
     document.body.classList.add('loaded');
   });
 </script>
-<script src="main.js" defer></script>
-
 </body>
 </html>
