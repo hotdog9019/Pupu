@@ -1,107 +1,146 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <link rel="stylesheet" href="/src/style/styl.css">
+    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Информация об авторе</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #443f3f;
-            color: #333;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 1s ease;
+            overflow: hidden;
+
+            transform: translateY(-10%);
         }
+
+        body.loaded {
+            opacity: 1;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 100px;
         }
+
         header,
         footer {
             text-align: center;
             padding: 20px 0;
-            background-color: #b9b3b3;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
             margin-bottom: 20px;
         }
+
         header nav ul {
             list-style: none;
             padding: 0;
             margin: 0;
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
+            /* 🔑 Позволяет кнопкам переноситься */
+            gap: 10px;
+            /* Расстояние между кнопками */
+            max-width: 100%;
+            /* Ограничиваем ширину контейнера */
+            box-sizing: border-box;
         }
-        header nav ul li a {
-            padding: 10px 20px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
+
+        header nav ul li {
+            flex-shrink: 0;
+            /* Запрещает сжиматься */
         }
+
+
         .profile-card {
-            background-color: #ac9898;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .profile-card h2,
         .profile-card p {
             margin: 5px 0;
         }
+
         .profile-card .avatar {
             width: 100px;
             height: 100px;
-            background-color: #ccc;
+            background-color: #504a4a;
             border-radius: 50%;
             margin: 0 auto 10px;
-            overflow: hidden; /* Обрезаем лишнее у изображения */
+            overflow: hidden;
+            /* Обрезаем лишнее у изображения */
         }
+
         .profile-card .avatar img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Сохраняем пропорции и заполняем контейнер */
+            object-fit: cover;
+            /* Сохраняем пропорции и заполняем контейнер */
         }
+
         .profile-card .info-section {
             text-align: left;
             margin-top: 20px;
         }
+
         .profile-card .info-section label {
             font-weight: bold;
         }
+
         .profile-card .info-section textarea,
         .profile-card .info-section input {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
             box-sizing: border-box;
-            border: 1px solid #ddd;
+            border: 1px solid #585555;
             border-radius: 4px;
         }
+
         .profile-card .skills {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap; /* Позволяет тегам переноситься на новую строку */
+            flex-wrap: wrap;
+            /* Позволяет тегам переноситься на новую строку */
             gap: 10px;
             margin-top: 15px;
         }
+
         .profile-card .skill-tag {
-            background-color: #eee;
+            background-color: #4CAF50;
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 14px;
-            white-space: nowrap; /* Предотвращает перенос текста внутри тега */
+            white-space: nowrap;
+            /* Предотвращает перенос текста внутри тега */
         }
+
         .profile-card .experience-list {
             text-align: left;
             margin-top: 20px;
         }
+
         .profile-card .experience-item {
-            border: 1px solid #ddd;
+            border: 1px solid #4CAF50;
             border-radius: 4px;
             padding: 10px;
             margin-top: 10px;
-            background-color: #f9f9f9;
+            background-color: #4CAF50;
         }
+
         .placeholder-image {
             width: 50px;
             height: 50px;
@@ -112,8 +151,9 @@
 
         /* Стили для кнопок, чтобы они выглядели красиво */
         .glow-on-hover {
-            width: 100px; /* Задаём фиксированный размер для всех кнопок */
-            height: 50px;
+            width: 110px;
+            /* Задаём фиксированный размер для всех кнопок */
+            height: 45px;
             border: none;
             outline: none;
             color: #fff;
@@ -122,7 +162,9 @@
             position: relative;
             z-index: 0;
             border-radius: 10px;
+
         }
+
         .glow-on-hover:before {
             content: '';
             background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
@@ -139,45 +181,64 @@
             transition: opacity .3s ease-in-out;
             border-radius: 10px;
         }
+
         .glow-on-hover:active {
             color: #000;
         }
+
         .glow-on-hover:active:after {
             background: transparent;
         }
+
         .glow-on-hover:hover:before {
             opacity: 1;
         }
+
         .glow-on-hover:after {
             z-index: -1;
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
-            background: #111;
+            background: #000000;
             left: 0;
             top: 0;
             border-radius: 10px;
         }
+
         @keyframes glowing {
-            0% { background-position: 0 0; }
-            50% { background-position: 400% 0; }
-            100% { background-position: 0 0; }
+            0% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 400% 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
+            <h2>Добро пожаловать, <span id="userName"></span>!</h2>
+            <button id="logoutBtn">Выйти</button>
+        </header>
+        <header>
             <nav>
                 <ul>
-                    <li><a href="/src/ocnova/index.html"><button class="glow-on-hover" type="button">Назад</button></a></li>
-                    <li><a href="/src/ocnova/index.html"><button class="glow-on-hover" type="button">Главная</button></a></li>
+                    <li><a href="main.html"><button class="glow-on-hover" type="button">Назад</button></a>
+                    </li>
+                    <li><a href="main.html"><button class="glow-on-hover" type="button">Главная</button></a></li>
                     <li><a href="new.html"><button class="glow-on-hover" type="button">Новости</button></a></li>
                     <li><a href="prac.html"><button class="glow-on-hover" type="button">Практика</button></a></li>
                     <li><a href="tov.html"><button class="glow-on-hover" type="button">Товары</button></a></li>
                     <li><a href="youtube.html"><button class="glow-on-hover" type="button">Youtube</button></a></li>
-                    <li><a href="/src/ocnova/contacts.html"><button class="glow-on-hover" type="button">Контакты</button></a></li>
+                    <li><a href="contacts.html"><button class="glow-on-hover" type="button">Контакты</button></a></li>
                 </ul>
             </nav>
         </header>
@@ -190,19 +251,19 @@
                 </div>
                 <h3>Элизбарян Артём Гайкович и Чобан Александр Александрович</h3>
                 <p>ЭФБО-14-24</p>
-                
+
                 <div class="info-section">
                     <label for="about">О нас:</label>
-                    
+
                 </div>
-                
+
                 <div class="skills">
                     <span class="skill-tag">кайфовые</span>
                     <span class="skill-tag">игрем в клеш</span>
                     <span class="skill-tag">знем питон</span>
                     <span class="skill-tag">мастера тиктока</span>
                 </div>
-                
+
                 <div class="experience-list">
                     <label>Наш опыт:</label>
                     <div class="experience-item">хз</div>
@@ -210,5 +271,28 @@
             </section>
         </main>
     </div>
+    <script>
+        // Проверяем, залогинен ли пользователь
+        const user = localStorage.getItem('loggedUser');
+        if (!user) {
+            window.location.href = 'index.html'; // если не залогинен — редирект на форму
+        } else {
+            document.getElementById('userName').textContent = user; // показываем имя
+        }
+
+        // Кнопка выхода
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('loggedUser'); // удаляем сессию
+            window.location.href = 'index.html'; // редирект на форму
+        });
+
+    </script>
+    <script>
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+
 </body>
+
 </html>

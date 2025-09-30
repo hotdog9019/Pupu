@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login & Register</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+     body {   
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4CAF50, #2196F3);
+      color: rgb(3, 3, 3);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      width: 100vw;  
+      opacity: 0;
+      transition: opacity 1s ease;
+      overflow: hidden;
+      transform: translateY(-10%);
+}
+
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    .button-row {
+  display: flex;            
+  align-items: center;      
+  gap: 10px;                
+  margin-bottom: 10px;      
+}
+
+.wrapper {
+  position: relative; /* обязательно, чтобы кнопка позиционировалась внутри блока */
+  width: 300px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.small-theme-btn {
+  position: absolute;
+  top: 10px;    /* отступ сверху */
+  right: 10px;  /* прижато к правому краю */
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+    }
+
+    .small-theme-btn:hover {
+      background: #4CAF50;
+    }
+
+
+
+    </style>
+</head>
+<body>
+  <div class="wrapper">
+  <div class="header-flex">
+    <div class="button-row">
+      <h1>Login</h1>
+  <button class="small-theme-btn" id="themeToggle">🌙</button>
+</div>
+
+
+  <div class="input-box">
+    <input type="text" id="username" placeholder="Username" required>
+  </div>
+  <div class="input-box">
+    <input type="password" id="password" placeholder="Password" required>
+  </div>
+  <button id="loginBtn">Login</button>
+  <button id="registerBtn">Register</button>
+  <p id="message"></p>
+</div>
+
+
+  <!-- <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const message = document.getElementById('message');
+
+    async function sendRequest(url, data) {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        // Если сервер вернул ошибку (500, 400 и т.д.)
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({ message: 'Ошибка сервера' }));
+          throw new Error(errData.message || 'Ошибка сервера');
+        }
+
+        return res.json();
+      } catch (err) {
+        return { message: err.message };
+      }
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      const result = await sendRequest('/api/login', { username, password });
+      message.textContent = result.message;
+      message.style.color = result.message.includes('Добро') ? 'green' : 'red';
+    });
+
+    registerBtn.addEventListener('click', async () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      const result = await sendRequest('/api/register', { username, password });
+      message.textContent = result.message;
+      message.style.color = result.message.includes('успешна') ? 'green' : 'red';
+    });
+  </script> -->
+  <script src="script.js"></script>
+  <script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
+</script>
+<script src="main.js" defer></script>
+
+</body>
+</html>

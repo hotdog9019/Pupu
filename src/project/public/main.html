@@ -7,7 +7,7 @@
   <title>Главная - Название вашего сайта</title>
   <meta name="description" content="Краткое описание главной страницы вашего сайта">
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="/src/style/styles.css">
+
 
   <style>
     body {
@@ -18,6 +18,12 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      opacity: 0;
+      transition: opacity 1s ease;
+}
+
+    body.loaded {
+      opacity: 1;
     }
 
     header {
@@ -159,6 +165,7 @@
       justify-content: space-between;
       margin-top: 10px;
     }
+    
   </style>
 </head>
 
@@ -169,11 +176,11 @@
     <nav>
       <ul>
         <li><button id="themeToggle">Сменить тему</button></li>
-        <li><a href="index.html">Главная</a></li>
+        <li><a href="main.html">Главная</a></li>
         <li><a href="about.html">О нас</a></li>
         <li><a href="contacts.html">Контакты</a></li>
         <li><a href="cases.html">Кейсики</a></li>
-        <li><a href="/src/visitka/visit.html">Визитка</a></li>
+        <li><a href="visit.html">Визитка</a></li>
       </ul>
     </nav>
   </header>
@@ -263,7 +270,12 @@
     document.getElementById('openDialog').onclick = () => dialog.showModal();
     document.getElementById('closeDialog').onclick = () => dialog.close();
   </script> -->
-  <script src="/src/java/main.js" defer></script>
+  <script src="main.js" defer></script>
+  <script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
+</script>
 
 </body>
 

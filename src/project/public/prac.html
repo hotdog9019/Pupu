@@ -14,7 +14,13 @@
     justify-content: center;
     align-items: center;
     background: #54565c;
-  }
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+    body.loaded {
+      opacity: 1;
+    }
 
   /* Крестики-нолики */
   .board {
@@ -164,5 +170,11 @@
   });
 
 </script>
+<script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
+</script>
+
 </body>
 </html>

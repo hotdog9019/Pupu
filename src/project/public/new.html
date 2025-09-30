@@ -10,6 +10,12 @@
       background: linear-gradient(135deg, #4CAF50, #2196F3);
       color: #fff;
       padding: 20px;
+      opacity: 0;
+      transition: opacity 1s ease;
+}
+
+    body.loaded {
+      opacity: 1;
     }
 
     .controls {
@@ -151,5 +157,10 @@
 
     app.mount("#app");
   </script>
+  <script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
+</script>
 </body>
 </html>
