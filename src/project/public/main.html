@@ -10,6 +10,11 @@
 
 
   <style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -20,7 +25,7 @@
       min-height: 100vh;
       opacity: 0;
       transition: opacity 1s ease;
-}
+    }
 
     body.loaded {
       opacity: 1;
@@ -166,10 +171,34 @@
       margin-top: 10px;
     }
     
+    #img1 {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100px;
+      /* измените по необходимости */
+      height: auto;
+      left: 10%;
+      transition: all 2s ease;
+    }
+
+    #img2 {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100px;
+      /* измените по необходимости */
+      height: auto;
+      right: 10%;
+    }
   </style>
 </head>
 
 <body>
+  <div class="container">
+    <img id="img1" src="./assets/gay (1).png" />
+    <img id="img2" src="./assets/Twix.png" />
+  </div>
   <!-- Шапка сайта -->
   <header>
     <p><a href="./assets/gat.jpg">🐻 МИШКИ</a></p>
@@ -272,11 +301,49 @@
   </script> -->
   <script src="main.js" defer></script>
   <script>
-  window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-  });
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+  </script>
+
+<script>
+  const img1 = document.getElementById('img1');
+    const img2 = document.getElementById('img2');
+
+    let animationStarted = false; 
+    function isColliding(element1, element2) {
+      const rect1 = element1.getBoundingClientRect();
+      const rect2 = element2.getBoundingClientRect();
+
+      return !(
+        rect1.top > rect2.bottom ||
+        rect1.right < rect2.left ||
+        rect1.bottom < rect2.top ||
+        rect1.left > rect2.right
+      );
+    }
+    function fadeOutImages() {
+      img1.style.opacity = 0;
+      img2.style.opacity = 0;
+    }
+    function animateImages() {
+      if (animationStarted) return; 
+      animationStarted = true;
+      setTimeout(() => {
+        img1.style.left = '82%';
+      }, 500);
+    }
+    function checkCollision() {
+      if (isColliding(img1, img2)) {
+        fadeOutImages();
+      } else if (parseInt(img1.style.left) >= (window.innerWidth - img1.width)) {
+        fadeOutImages();
+      } else {
+        requestAnimationFrame(checkCollision);
+      }
+    }
+    animateImages();
+    checkCollision();
 </script>
-
 </body>
-
 </html>
