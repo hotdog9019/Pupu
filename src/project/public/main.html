@@ -10,19 +10,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    :root {
-      --primary-color: #4CAF50;
-      --secondary-color: #2196F3;
-      --accent-color: #ff9800;
-      --danger-color: #f44336;
-      --dark-color: #1a1a1a;
-      --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      --gradient-dark: linear-gradient(135deg, var(--danger-color), var(--dark-color));
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
-      --transition-normal: 0.3s ease;
-    }
-
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
@@ -32,8 +19,8 @@
       flex-direction: column;
       min-height: 100vh;
       opacity: 0;
-      transition: all var(--transition-normal);
-    }
+      transition: opacity 1s ease;
+}
 
     body.loaded {
       opacity: 1;
@@ -256,146 +243,14 @@
       justify-content: space-between;
       margin-top: 10px;
     }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .stats__item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 1.5rem;
-      border-radius: 12px;
-      text-align: center;
-      transition: transform var(--transition-normal);
-    }
-
-    .stats__item:hover {
-      transform: translateY(-3px);
-    }
-
-    .stats__number {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--accent-color);
-      display: block;
-    }
-
-    .feature-card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 20px;
-      margin: 10px;
-      transition: all var(--transition-normal);
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .is-loading {
-      opacity: 0.7;
-      pointer-events: none;
-      position: relative;
-    }
-
-    .is-loading::after {
-      content: '🔄';
-      position: absolute;
-      right: 10px;
-      animation: spin 1s linear infinite;
-    }
-
-    .is-success {
-      background: #4CAF50 !important;
-    }
-
-    .is-error {
-      background: #f44336 !important;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes bounce {
-
-      0%,
-      20%,
-      53%,
-      80%,
-      100% {
-        transform: translateY(0);
-      }
-
-      40%,
-      43% {
-        transform: translateY(-10px);
-      }
-
-      70% {
-        transform: translateY(-5px);
-      }
-
-      90% {
-        transform: translateY(-2px);
-      }
-    }
-
-    .animate-bounce {
-      animation: bounce 1s ease infinite;
-    }
-
-    .rofl-text {
-      font-size: 0.9em;
-      opacity: 0.8;
-      font-style: italic;
-    }
-
-    .secret-egg {
-      cursor: pointer;
-      transition: all 0.5s ease;
-    }
-
-    .secret-egg:hover {
-      transform: rotate(360deg) scale(1.2);
-    }
-    #img1 {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100px;
-      /* измените по необходимости */
-      height: auto;
-      left: 10%;
-      transition: all 2s ease;
-    }
-
-    #img2 {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 65px;
-      /* измените по необходимости */
-      height: auto;
-      right: 10%;
-    }
+    
   </style>
 </head>
 
 <body>
-  <header class="header">
-    <button class="nav-toggle" id="navToggle">☰</button>
-    <p><a href="./assets/gat.jpg" class="header__logo">🐻 МИШКИ-ШАЛУНЫ</a></p>
+  <!-- Шапка сайта -->
+  <header>
+    <p><a href="./assets/gat.jpg">🐻 МИШКИ</a></p>
     <nav>
       <ul class="header__nav" id="headerNav">
         <li><button class="header__nav-link" id="themeToggle">Сменить тему</button></li>
@@ -649,44 +504,10 @@
     `, 'background: #ff0000; color: white; font-size: 14px; padding: 10px;');
   </script>
   <script>
-  const img1 = document.getElementById('img1');
-    const img2 = document.getElementById('img2');
-
-    let animationStarted = false; 
-    function isColliding(element1, element2) {
-      const rect1 = element1.getBoundingClientRect();
-      const rect2 = element2.getBoundingClientRect();
-
-      return !(
-        rect1.top > rect2.bottom ||
-        rect1.right < rect2.left ||
-        rect1.bottom < rect2.top ||
-        rect1.left > rect2.right
-      );
-    }
-    function fadeOutImages() {
-      img1.style.opacity = 0;
-      img2.style.opacity = 0;
-    }
-    function animateImages() {
-      if (animationStarted) return; 
-      animationStarted = true;
-      setTimeout(() => {
-        img1.style.left = '82%';
-      }, 500);
-    }
-    function checkCollision() {
-      if (isColliding(img1, img2)) {
-        fadeOutImages();
-      } else if (parseInt(img1.style.left) >= (window.innerWidth - img1.width)) {
-        fadeOutImages();
-      } else {
-        requestAnimationFrame(checkCollision);
-      }
-    }
-    animateImages();
-    checkCollision();
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
 </script>
-</body>
 
+</body>
 </html>
