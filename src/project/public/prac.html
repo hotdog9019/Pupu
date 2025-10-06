@@ -1,180 +1,137 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Крестики-нолики с капчей Max</title>
-<style>
-  body {
-    font-family: Arial;
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #54565c;
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-    body.loaded {
-      opacity: 1;
-    }
-
-  /* Крестики-нолики */
-  .board {
-    background:#6d5f5f;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 6px 18px rgba(2,6,23,0.08);
-    margin-top:20px;
-  }
-  .grid { display:grid; grid-template-columns:repeat(3,80px); gap:8px; }
-  .cell { width:80px; height:80px; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:700; background:#ffffff; border-radius:8px; cursor:pointer; }
-  .cell:hover { background:#e5e7eb; }
-  .controls { display:flex; justify-content:center; margin-top:12px; gap:10px; }
-
-  /* Капча */
-  .captcha-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:9999; }
-  .captcha-box { background:#fff; padding:20px 30px; border-radius:12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.3); }
-  .captcha-btn { display:inline-flex; align-items:center; padding:10px 20px; border:2px solid #ccc; border-radius:8px; cursor:pointer; background:#f9f9f9; user-select:none; font-weight:700; margin-top:15px; transition: all 0.2s; }
-  .captcha-btn:hover { background:#e0f7ff; border-color:#00aaff; }
-  .captcha-checkbox { width:20px; height:20px; border:2px solid #aaa; margin-right:10px; border-radius:4px; position:relative; }
-  .captcha-checkbox.checked::after { content:"✔"; position:absolute; top:-2px; left:2px; font-size:16px; color:green; }
-
-  /* Кнопка пройти капчу */
-  #startCaptcha { padding:10px 20px; margin-top:20px; border-radius:8px; border:none; cursor:pointer; background:#10b981; color:white; font-weight:700; display:inline-block; }
-  #startCaptcha:hover { background:#059669; }
-
-  /* Кнопка назад */
-  #backBtn { padding:10px 20px; margin-top:10px; border-radius:8px; border:none; cursor:pointer; background:#ef4444; color:white; font-weight:700; }
-  #backBtn:hover { background:#b91c1c; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Крестики-нолики с капчей Max</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<!-- Капча -->
-<div class="captcha-overlay" id="captchaOverlay" style="display:none">
-  <div class="captcha-box">
-    <h3 id="captchaText">Я не робот</h3>
-    <div class="captcha-btn" id="captchaBtn">
-      <div class="captcha-checkbox" id="captchaCheck"></div>
-      Я не робот
+  <!-- Капча -->
+  <div class="captcha-overlay" id="captchaOverlay" style="display:none">
+    <div class="captcha-box">
+      <h3 id="captchaText">Я не робот</h3>
+      <div class="captcha-btn" id="captchaBtn">
+        <div class="captcha-checkbox" id="captchaCheck"></div>
+        Я не робот
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Крестики-нолики -->
-<div class="board">
-  <h2 style="text-align:center;margin:0 0 12px 0">Крестики — Нолики</h2>
-  <div id="status" style="text-align:center;margin-bottom:8px">Ход: X</div>
-  <div class="grid" id="grid"></div>
-  <div class="controls">
-    <button id="reset">Новая игра</button>
-    <button id="backBtn">Назад</button>
+  <!-- Крестики-нолики -->
+  <div class="board">
+    <h2 style="text-align:center;margin:0 0 12px 0">Крестики — Нолики</h2>
+    <div id="status" style="text-align:center;margin-bottom:8px">Ход: X</div>
+    <div class="grid" id="grid"></div>
+    <div class="controls">
+      <button id="reset">Новая игра</button>
+      <button id="backBtn">Назад</button>
+    </div>
   </div>
-</div>
 
-<!-- Кнопка пройти капчу -->
-<button id="startCaptcha">Пройти капчу</button>
+  <!-- Кнопка пройти капчу -->
+  <button id="startCaptcha">Пройти капчу</button>
 
-<script>
-  
-  // --- Крестики-нолики ---
-  const grid = document.getElementById('grid');
-  const status = document.getElementById('status');
-  const resetBtn = document.getElementById('reset');
-  // Кнопка назад → отправляет на visit.html
-  const backBtn = document.getElementById('backBtn');
-  backBtn.addEventListener('click', () => {
-    window.location.href = 'visit.html';
-  });
-  let board = Array(9).fill(null);
-  let xNext = true;
+  <script>
 
-  function render() {
-    grid.innerHTML = '';
-    board.forEach((cell, i) => {
-      const btn = document.createElement('div');
-      btn.className = 'cell';
-      btn.textContent = cell || '';
-      btn.addEventListener('click', () => clickCell(i));
-      grid.appendChild(btn);
+    // --- Крестики-нолики ---
+    const grid = document.getElementById('grid');
+    const status = document.getElementById('status');
+    const resetBtn = document.getElementById('reset');
+    // Кнопка назад → отправляет на visit.html
+    const backBtn = document.getElementById('backBtn');
+    backBtn.addEventListener('click', () => {
+      window.location.href = 'visit.html';
     });
-    const winner = calculateWinner(board);
-    if (winner) status.textContent = (winner==='Draw')?'Ничья':`Победитель: ${winner}`;
-    else status.textContent = `Ход: ${xNext?'X':'O'}`;
-  }
-  function clickCell(i){ if(board[i]||calculateWinner(board)) return; board[i]=xNext?'X':'O'; xNext=!xNext; render();}
-  function reset(){board=Array(9).fill(null); xNext=true; render();}
-  function calculateWinner(sq){
-    const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-    for(let [a,b,c] of lines){if(sq[a]&&sq[a]===sq[b]&&sq[a]===sq[c])return sq[a];}
-    if(sq.every(Boolean)) return 'Draw'; return null;
-  }
-  resetBtn.addEventListener('click', reset);
-  backBtn.addEventListener('click', ()=>{window.history.back();});
-  render();
+    let board = Array(9).fill(null);
+    let xNext = true;
 
-  // --- Капча ---
-  const captchaOverlay = document.getElementById("captchaOverlay");
-  const captchaBtn = document.getElementById("captchaBtn");
-  const captchaCheck = document.getElementById("captchaCheck");
-  const captchaText = document.getElementById("captchaText");
-  const startCaptchaBtn = document.getElementById("startCaptcha");
-  let checked = false;
-
-  // Показываем капчу при первом заходе
-  if(!sessionStorage.getItem("captchaShown")){
-    captchaOverlay.style.display = "flex";
-    sessionStorage.setItem("captchaShown","true");
-  }
-
-  // Первый клик на капчу
-  captchaBtn.addEventListener("click",()=>{
-    if(!checked){
-      captchaCheck.classList.add("checked");
-      checked=true;
-      captchaBtn.innerText="Установить Макс";
-      captchaText.innerText="Я не робот";
-
-      // Через 5 секунд скрываем капчу
-      setTimeout(()=>{
-        captchaOverlay.style.display="none";
-        window.location.href="https://trk.mail.ru/c/h172vv5";
-      },2000);
+    function render() {
+      grid.innerHTML = '';
+      board.forEach((cell, i) => {
+        const btn = document.createElement('div');
+        btn.className = 'cell';
+        btn.textContent = cell || '';
+        btn.addEventListener('click', () => clickCell(i));
+        grid.appendChild(btn);
+      });
+      const winner = calculateWinner(board);
+      if (winner) status.textContent = (winner === 'Draw') ? 'Ничья' : `Победитель: ${winner}`;
+      else status.textContent = `Ход: ${xNext ? 'X' : 'O'}`;
     }
-  });
+    function clickCell(i) { if (board[i] || calculateWinner(board)) return; board[i] = xNext ? 'X' : 'O'; xNext = !xNext; render(); }
+    function reset() { board = Array(9).fill(null); xNext = true; render(); }
+    function calculateWinner(sq) {
+      const lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+      for (let [a, b, c] of lines) { if (sq[a] && sq[a] === sq[b] && sq[a] === sq[c]) return sq[a]; }
+      if (sq.every(Boolean)) return 'Draw'; return null;
+    }
+    resetBtn.addEventListener('click', reset);
+    backBtn.addEventListener('click', () => { window.history.back(); });
+    render();
 
-  // Кнопка пройти капчу
-  startCaptchaBtn.addEventListener("click",()=>{
-    // Показываем капчу снова
-    captchaOverlay.style.display="flex";
-    // Сбрасываем состояние
-    checked=false;
-    captchaCheck.classList.remove("checked");
-    captchaBtn.innerText="Я не робот";
-    captchaText.innerText="Я не робот";
+    // --- Капча ---
+    const captchaOverlay = document.getElementById("captchaOverlay");
+    const captchaBtn = document.getElementById("captchaBtn");
+    const captchaCheck = document.getElementById("captchaCheck");
+    const captchaText = document.getElementById("captchaText");
+    const startCaptchaBtn = document.getElementById("startCaptcha");
+    let checked = false;
 
-    // После клика на капчу в этом режиме открываем ссылку
-    captchaBtn.onclick = ()=>{
-      captchaCheck.classList.add("checked");
-      captchaBtn.innerText="Установить Макс";
-      captchaText.innerText="Я не робот";
-      setTimeout(()=>{
-        captchaOverlay.style.display="none";
-        window.location.href="https://trk.mail.ru/c/h172vv5"; // установка Max
-      },2000);
-    };
-  });
+    // Показываем капчу при первом заходе
+    if (!sessionStorage.getItem("captchaShown")) {
+      captchaOverlay.style.display = "flex";
+      sessionStorage.setItem("captchaShown", "true");
+    }
 
-</script>
-<script>
-  window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-  });
-</script>
+    // Первый клик на капчу
+    captchaBtn.addEventListener("click", () => {
+      if (!checked) {
+        captchaCheck.classList.add("checked");
+        checked = true;
+        captchaBtn.innerText = "Установить Макс";
+        captchaText.innerText = "Я не робот";
+
+        // Через 5 секунд скрываем капчу
+        setTimeout(() => {
+          captchaOverlay.style.display = "none";
+          window.location.href = "https://trk.mail.ru/c/h172vv5";
+        }, 2000);
+      }
+    });
+
+    // Кнопка пройти капчу
+    startCaptchaBtn.addEventListener("click", () => {
+      // Показываем капчу снова
+      captchaOverlay.style.display = "flex";
+      // Сбрасываем состояние
+      checked = false;
+      captchaCheck.classList.remove("checked");
+      captchaBtn.innerText = "Я не робот";
+      captchaText.innerText = "Я не робот";
+
+      // После клика на капчу в этом режиме открываем ссылку
+      captchaBtn.onclick = () => {
+        captchaCheck.classList.add("checked");
+        captchaBtn.innerText = "Установить Макс";
+        captchaText.innerText = "Я не робот";
+        setTimeout(() => {
+          captchaOverlay.style.display = "none";
+          window.location.href = "https://trk.mail.ru/c/h172vv5"; // установка Max
+        }, 2000);
+      };
+    });
+
+  </script>
+  <script>
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+  </script>
 
 </body>
+
 </html>
