@@ -10,6 +10,19 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
+    :root {
+      --primary-color: #4CAF50;
+      --secondary-color: #2196F3;
+      --accent-color: #ff9800;
+      --danger-color: #f44336;
+      --dark-color: #1a1a1a;
+      --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      --gradient-dark: linear-gradient(135deg, var(--danger-color), var(--dark-color));
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.2);
+      --transition-normal: 0.3s ease;
+    }
+
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
@@ -19,8 +32,8 @@
       flex-direction: column;
       min-height: 100vh;
       opacity: 0;
-      transition: opacity 1s ease;
-}
+      transition: all var(--transition-normal);
+    }
 
     body.loaded {
       opacity: 1;
@@ -243,14 +256,124 @@
       justify-content: space-between;
       margin-top: 10px;
     }
-    
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .stats__item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform var(--transition-normal);
+    }
+
+    .stats__item:hover {
+      transform: translateY(-3px);
+    }
+
+    .stats__number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      display: block;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 10px;
+      transition: all var(--transition-normal);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .is-loading {
+      opacity: 0.7;
+      pointer-events: none;
+      position: relative;
+    }
+
+    .is-loading::after {
+      content: '🔄';
+      position: absolute;
+      right: 10px;
+      animation: spin 1s linear infinite;
+    }
+
+    .is-success {
+      background: #4CAF50 !important;
+    }
+
+    .is-error {
+      background: #f44336 !important;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+      40%, 43% { transform: translateY(-10px); }
+      70% { transform: translateY(-5px); }
+      90% { transform: translateY(-2px); }
+    }
+
+    .animate-bounce {
+      animation: bounce 1s ease infinite;
+    }
+
+    .rofl-text {
+      font-size: 0.9em;
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .secret-egg {
+      cursor: pointer;
+      transition: all 0.5s ease;
+    }
+
+    .secret-egg:hover {
+      transform: rotate(360deg) scale(1.2);
+    }
+    #img1 {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100px;
+      /* измените по необходимости */
+      height: auto;
+      left: 10%;
+      transition: all 2s ease;
+    }
+
+    #img2 {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 65px;
+      /* измените по необходимости */
+      height: auto;
+      right: 10%;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Шапка сайта -->
-  <header>
-    <p><a href="./assets/gat.jpg">🐻 МИШКИ</a></p>
+  <header class="header">
+    <button class="nav-toggle" id="navToggle">☰</button>
+    <p><a href="./assets/gat.jpg" class="header__logo">🐻 МИШКИ-ШАЛУНЫ</a></p>
     <nav>
       <ul class="header__nav" id="headerNav">
         <li><button class="header__nav-link" id="themeToggle">Сменить тему</button></li>
@@ -262,8 +385,8 @@
       </ul>
     </nav>
     <div class="container">
-    <img id="img1" src="./assets/gay (1).png"/>
-    <img id="img2" src="./assets/Twix.png"/>
+    <img id="img1" src="./assets/gay (1).png" />
+    <img id="img2" src="./assets/Twix.png" />
   </div>
   </header>
 
@@ -289,7 +412,7 @@
     <section class="section" id="services">
       <h2>Наши услуги</h2>
       <p>Делаем всё, что попросите</p>
-
+      
       <div class="row">
         <div class="col-md-4">
           <div class="feature-card">
@@ -310,7 +433,7 @@
           </div>
         </div>
       </div>
-
+      
       <a href="contacts.html" class="btn animate-bounce">📞 Связаться с нами</a>
     </section>
 
@@ -324,7 +447,7 @@
     <section class="section" id="team">
       <h2>Наша команда</h2>
       <p>Те самые "Шаловливые пальчики" 🐻</p>
-
+      
       <div class="row">
         <div class="col-md-6">
           <div class="feature-card">
@@ -347,19 +470,19 @@
       <h2>Свяжитесь с нами</h2>
       <button class="btn" id="openDialog">Написать нам</button>
       <button class="btn btn--secondary" onclick="showSecret()">давай ну нажми</button>
-
+      
       <dialog class="dialog" id="contactDialog">
         <h2>Обратная связь</h2>
         <form class="form" id="contactForm" method="dialog">
           <label for="name">Как к вам обращаться?</label>
           <input class="form__input" id="name" name="name" type="text" required placeholder="Ваше имя">
-
+          
           <label for="email">Куда слать спам? </label>
           <input class="form__input" id="email" name="email" type="email" required placeholder="email@example.com">
-
+          
           <label for="phone">Телефон </label>
           <input class="form__input" id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__">
-
+          
           <label for="topic">О чём хотите поговорить?</label>
           <select class="form__input" id="topic" name="topic" required>
             <option value="">Выберите тему...</option>
@@ -368,10 +491,10 @@
             <option>Просто поболтать</option>
             <option>Предложение</option>
           </select>
-
+          
           <label for="message">Ваше сообщение никто не прочитает</label>
           <textarea class="form__input" id="message" name="message" rows="4" placeholder="Расскажите всё..."></textarea>
-
+          
           <div class="form__actions">
             <button class="btn btn--secondary" type="button" id="closeDialog">❌ Закрыть</button>
             <button class="btn" type="submit" id="submitBtn">Отправить</button>
@@ -393,16 +516,16 @@
   <script>
     // Сохранение и загрузка темы
     function loadTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('theme-dark');
-        themeButton.textContent = 'Светлая тема';
-      }
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('theme-dark');
+            themeButton.textContent = 'Светлая тема';
+        }
     }
 
     function saveTheme() {
-      const isDark = document.body.classList.contains('theme-dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        const isDark = document.body.classList.contains('theme-dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
 
     // Управление навигационной панелью
@@ -411,28 +534,28 @@
     let isNavVisible = true;
 
     function toggleNavigation() {
-      isNavVisible = !isNavVisible;
-      if (isNavVisible) {
-        headerNav.classList.remove('collapsed');
-        navToggle.textContent = '☰';
-      } else {
-        headerNav.classList.add('collapsed');
-        navToggle.textContent = '⊕';
-      }
+        isNavVisible = !isNavVisible;
+        if (isNavVisible) {
+            headerNav.classList.remove('collapsed');
+            navToggle.textContent = '☰';
+        } else {
+            headerNav.classList.add('collapsed');
+            navToggle.textContent = '⊕';
+        }
     }
 
     window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-      loadTheme(); // Загружаем сохраненную тему
+        document.body.classList.add('loaded');
+        loadTheme(); // Загружаем сохраненную тему
     });
 
     const themeButton = document.getElementById('themeToggle');
     themeButton.addEventListener('click', () => {
-      document.body.classList.toggle('theme-dark');
-      themeButton.textContent = document.body.classList.contains('theme-dark')
-        ? 'Светлая тема'
-        : 'Тёмная тема';
-      saveTheme(); // Сохраняем тему при переключении
+        document.body.classList.toggle('theme-dark');
+        themeButton.textContent = document.body.classList.contains('theme-dark') 
+            ? 'Светлая тема' 
+            : 'Тёмная тема';
+        saveTheme(); // Сохраняем тему при переключении
     });
 
     navToggle.addEventListener('click', toggleNavigation);
@@ -485,13 +608,13 @@
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.classList.add('is-loading');
       submitBtn.textContent = 'Отправляем...';
-
+      
       setTimeout(() => {
         submitBtn.classList.remove('is-loading');
         submitBtn.classList.add('is-success');
         submitBtn.textContent = '✅ Отправлено!';
         dialog.close();
-
+        
         setTimeout(() => {
           submitBtn.classList.remove('is-success');
           submitBtn.textContent = 'Отправить';
@@ -503,11 +626,47 @@
     че ты тут забыл пидр? сьебался отсюда 
     `, 'background: #ff0000; color: white; font-size: 14px; padding: 10px;');
   </script>
-  <script>
-  window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-  });
+
+<script>
+  const img1 = document.getElementById('img1');
+    const img2 = document.getElementById('img2');
+
+    let animationStarted = false; 
+    function isColliding(element1, element2) {
+      const rect1 = element1.getBoundingClientRect();
+      const rect2 = element2.getBoundingClientRect();
+
+      return !(
+        rect1.top > rect2.bottom ||
+        rect1.right < rect2.left ||
+        rect1.bottom < rect2.top ||
+        rect1.left > rect2.right
+      );
+    }
+    function fadeOutImages() {
+      img1.style.opacity = 0;
+      img2.style.opacity = 0;
+    }
+    function animateImages() {
+      if (animationStarted) return; 
+      animationStarted = true;
+      setTimeout(() => {
+        img1.style.left = '82%';
+      }, 500);
+    }
+    function checkCollision() {
+      if (isColliding(img1, img2)) {
+        fadeOutImages();
+      } else if (parseInt(img1.style.left) >= (window.innerWidth - img1.width)) {
+        fadeOutImages();
+      } else {
+        requestAnimationFrame(checkCollision);
+      }
+    }
+    animateImages();
+    checkCollision();
 </script>
 
 </body>
+
 </html>
