@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<style>
+    body {
+    background: linear-gradient(135deg, #4CAF50, #2196F3);
+}
+</style>
+<body>
+    <div class="page-container">
+        <div class="header">
+            <div class="student-name">Чобан Александр</div>
+        </div>
+        
+        <div class="nav">
+            <ul class="nav-list">
+                 <li class="nav-item"><a class="header__nav-link" href="main.html">Назад</a></li>
+                <li class="nav-item"><a class="header__nav-link" href="chob.html">Главная</a></li>
+                <li class="nav-item"><a class="header__nav-link" href="pages/projects.html">Проекты</a></li>
+                <li class="nav-item"><a class="header__nav-link" href="pages/diary.html">Дневник</a></li>
+                <li class="nav-item"><a class="header__nav-link" href="pages/contacts.html">Контакты</a></li>
+            </ul>
+        </div>
+        
+        <div class="content">
+            <div class="profile-section">
+                <div class="photo-container">
+                    <img src="images/goods2.jpg" alt="Фото Чобан Александр" class="profile-photo">
+                </div>
+                <div class="profile-info">
+                    <h2>Привет! Я Чобан Александр</h2>
+                    <p>Факультет ИПТИП, группа ЭФБО-14-24</p>
+                    <p>Увлекаюсь веб-разработкой</p>
+                    <button class="download-btn">Скачать резюме</button>
+                </div>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <div class="skills-section">
+                <h2>Мои навыки</h2>
+                <div class="skill-item">
+                    <span class="skill-name">HTML/CSS</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%"></div>
+                    </div>
+                    <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">JavaScript</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                    <span class="skill-percent">80%</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Bootstrap</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                    <span class="skill-percent">85%</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">React</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                    <span class="skill-percent">60%</span>
+                </div>
+            </div>
+            
+            <!-- Projects Section -->
+            <div class="section-divider"></div>
+            
+            <div class="projects-section">
+                <h2>Лучшие проекты</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <!-- Замените src на путь к изображению вашего проекта -->
+                        <img src="images/goods5.jpg" alt="Проект 1" class="project-image">
+                        <h3 class="project-title">Проект 1</h3>
+                    </div>
+                    <div class="project-card">
+                        <!-- Замените src на путь к изображению вашего проекта -->
+                        <img src="images/goods7.jpg" alt="Проект 2" class="project-image">
+                        <h3 class="project-title">Проект 2</h3>
+                    </div>
+                    <div class="project-card">
+                        <!-- Замените src на путь к изображению вашего проекта -->
+                        <img src="images/goods4.jpg" alt="Проект 3" class="project-image">
+                        <h3 class="project-title">Проект 3</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Чобан Александр. Все права защищены.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadBtn = document.querySelector('.download-btn');
+            
+            downloadBtn.addEventListener('click', function() {
+                // Создаем ссылку для скачивания
+                const link = document.createElement('a');
+                link.href = 'files/Резюме Чобан Александр.pdf'; // Путь к вашему PDF файлу
+                link.download = 'Резюме_Чобан_Александр.pdf'; // Имя файла при скачивании
+                
+                // Добавляем ссылку в DOM, кликаем и удаляем
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Можно также показать сообщение об успешном скачивании
+                setTimeout(function() {
+                    alert('Резюме успешно скачано!');
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
